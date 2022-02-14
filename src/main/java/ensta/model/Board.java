@@ -93,4 +93,69 @@ public class Board implements IBoard {
 
         return true;
     }
-}
+
+    public int getSize() { return size; }
+
+    public boolean putShip( AbstractShip ship, Coords coords ) {
+        if ( !canPutShip( ship, coords ) )
+            return false;
+
+        Orientation o = ship.getOrientation();
+        int dx = 0, dy = 0;
+        if ( o == Orientation.EAST ) {
+            if ( coords.getX() + ship.getLength() >= this.size ) {
+                return false;
+            }
+            dx = 1;
+        } else if ( o == Orientation.SOUTH ) {
+            if ( coords.getY() + ship.getLength() >= this.size ) {
+                return false;
+            }
+            dy = 1;
+        } else if ( o == Orientation.NORTH ) {
+            if ( coords.getY() + 1 - ship.getLength() < 0 ) {
+                return false;
+            }
+            dy = -1;
+        } else if ( o == Orientation.WEST ) {
+            if ( coords.getX() + 1 - ship.getLength() < 0 ) {
+                return false;
+            }
+            dx = -1;
+        }
+
+        Coords iCoords = new Coords( coords );
+
+        for ( int i = 0; i < ship.getLength(); ++i ) {
+            myBoats[iCoords.getX()][iCoords.getY()] = ship.getLabel();
+            iCoords.setX( iCoords.getX() + dx );
+            iCoords.setY( iCoords.getY() + dy );
+        }
+
+        return true;
+    }
+
+    public boolean hasShip( Coords coords ) {
+        return myBoats[coords.getX()][coords.getY()] != '\u0000';
+    }
+
+    public void setHit( boolean hit, Coords coords ) {
+        myHits[coords.getX()][coords.getY()] = hit;
+    }
+
+    public Boolean getHit( Coords coords ) { return myHits[coords.getX()][coords.getY()]; }
+
+    public Hit sendHit( Coords res ) {
+        if ( !hasShip( res ) ) {
+            return Hit.MISS;
+        } else if ( myBoats[res.getX()][res.getY()] == 'D' ) {
+            return Hit.DESTROYER;
+        } else if ( myBoats[res.getX()][res.getY()] == 'S' ) {
+            return Hit.SUBMARINE;
+        } else if ( myBoats[res.getX()][res.getY()] == 'B' ) {
+            return Hit.BATTLESHIP;
+        } else if ( myBoats[res.getX()][res.getY()] == 'C' ) {
+            return Hit.CARRIER;
+        } else {
+            return Hit.STRIKE;
+        }

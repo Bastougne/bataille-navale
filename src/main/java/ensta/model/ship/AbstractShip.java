@@ -10,7 +10,7 @@ public class AbstractShip {
 
     public Character getLabel() { return label; }
     public String getName() { return name; }
-    public int getSize() { return size; }
+    public int getLength() { return size; }
     public Orientation getOrientation() { return orientation; }
 
     public void setOrientation( Orientation orientation ) {
