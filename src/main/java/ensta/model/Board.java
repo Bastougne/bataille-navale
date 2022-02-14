@@ -19,7 +19,7 @@ public class Board implements IBoard {
         myHits = new boolean[size][size];
         for ( int i = 0; i < size; i++ ) {
             for ( int j = 0; i < size; i++ ) {
-                myBoats[i][j] = '\u0000';
+                myBoats[i][j] = '.';
                 myHits[i][j] = false;
             }
         }
@@ -136,7 +136,7 @@ public class Board implements IBoard {
     }
 
     public boolean hasShip( Coords coords ) {
-        return myBoats[coords.getX()][coords.getY()] != '\u0000';
+        return myBoats[coords.getX()][coords.getY()] != '.';
     }
 
     public void setHit( boolean hit, Coords coords ) {
