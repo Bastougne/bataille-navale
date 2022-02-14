@@ -159,3 +159,5 @@ public class Board implements IBoard {
         } else {
             return Hit.STRIKE;
         }
+    }
+}
