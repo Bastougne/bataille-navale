@@ -17,11 +17,7 @@ public class AbstractShip {
         this.orientation = orientation;
     }
 
-    public AbstractShip( Orientation orientation ) {
+    public AbstractShip( String name, Character label, int size, Orientation orientation ) {
         this.orientation = orientation;
-    }
-
-    public AbstractShip() {
-        this( 'east ');
     }
 }

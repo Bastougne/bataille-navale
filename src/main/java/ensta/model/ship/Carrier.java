@@ -1,5 +1,14 @@
 package ensta.model.ship;
 
-public class Carrier {
+import ensta.util.Orientation;
+
+public class Carrier extends AbstractShip {
+    Carrier( Orientation orientation ) {
+        super( "Carrier", 'C', 5, orientation );
+    }
+
+    Carrier() {
+        this( Orientation.EAST );
+    }
     
 }
