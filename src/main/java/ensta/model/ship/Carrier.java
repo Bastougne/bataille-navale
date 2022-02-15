@@ -3,11 +3,11 @@ package ensta.model.ship;
 import ensta.util.Orientation;
 
 public class Carrier extends AbstractShip {
-    Carrier( Orientation orientation ) {
+    public Carrier( Orientation orientation ) {
         super( "Carrier", 'C', 5, orientation );
     }
 
-    Carrier() {
+    public Carrier() {
         this( Orientation.EAST );
     }
     
