@@ -1,7 +1,9 @@
 package ensta.model;
 
 import ensta.model.ship.AbstractShip;
+import ensta.model.ship.ShipState;
 import ensta.util.Orientation;
+import java.util.Objects;
 
 public class Board implements IBoard {
 
@@ -9,17 +11,19 @@ public class Board implements IBoard {
 
     private String name;
     private int size;
-    private Character[][] myBoats;
+    private ShipState[][] myBoats;
     private boolean[][] myHits;
+
+    public String getName() { return name; }
 
     public Board( String name, int size ) {
         this.name = name;
         this.size = size;
-        myBoats = new Character[size][size];
+        myBoats = new ShipState[size][size];
         myHits = new boolean[size][size];
         for ( int i = 0; i < size; i++ ) {
             for ( int j = 0; i < size; i++ ) {
-                myBoats[i][j] = '.';
+                myBoats[i][j] = new ShipState();
                 myHits[i][j] = false;
             }
         }
@@ -46,7 +50,7 @@ public class Board implements IBoard {
         System.out.println( '\n' );
         for ( int i = 0; i < size; i++ ) {
             for ( int j = 0; j < size; j++ ) {
-                System.out.print( myBoats[i][j] + ' ' );
+                System.out.print( myBoats[i][j].toString() + ' ' );
             }
             System.out.print( "    " );
             for ( int j = 0; j < size; j++ ) {
@@ -127,7 +131,7 @@ public class Board implements IBoard {
         Coords iCoords = new Coords( coords );
 
         for ( int i = 0; i < ship.getLength(); ++i ) {
-            myBoats[iCoords.getX()][iCoords.getY()] = ship.getLabel();
+            myBoats[iCoords.getX()][iCoords.getY()].setShip( ship );
             iCoords.setX( iCoords.getX() + dx );
             iCoords.setY( iCoords.getY() + dy );
         }
@@ -136,7 +140,7 @@ public class Board implements IBoard {
     }
 
     public boolean hasShip( Coords coords ) {
-        return myBoats[coords.getX()][coords.getY()] != '.';
+        return Objects.isNull( myBoats[coords.getX()][coords.getY()].getShip() );
     }
 
     public void setHit( boolean hit, Coords coords ) {
@@ -148,13 +152,13 @@ public class Board implements IBoard {
     public Hit sendHit( Coords res ) {
         if ( !hasShip( res ) ) {
             return Hit.MISS;
-        } else if ( myBoats[res.getX()][res.getY()] == 'D' ) {
+        } else if ( myBoats[res.getX()][res.getY()].getShip().getLabel() == 'D' ) {
             return Hit.DESTROYER;
-        } else if ( myBoats[res.getX()][res.getY()] == 'S' ) {
+        } else if ( myBoats[res.getX()][res.getY()].getShip().getLabel() == 'S' ) {
             return Hit.SUBMARINE;
-        } else if ( myBoats[res.getX()][res.getY()] == 'B' ) {
+        } else if ( myBoats[res.getX()][res.getY()].getShip().getLabel() == 'B' ) {
             return Hit.BATTLESHIP;
-        } else if ( myBoats[res.getX()][res.getY()] == 'C' ) {
+        } else if ( myBoats[res.getX()][res.getY()].getShip().getLabel() == 'C' ) {
             return Hit.CARRIER;
         } else {
             return Hit.STRIKE;

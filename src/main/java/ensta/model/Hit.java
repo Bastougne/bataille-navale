@@ -1,4 +1,5 @@
 package ensta.model;
+
 import java.util.NoSuchElementException;
 
 public enum Hit {
