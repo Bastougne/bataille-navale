@@ -14,7 +14,7 @@ public class Coords {
         y = 0;
     }
 
-    public Coords(int x, int y) {
+    public Coords( int x, int y ) {
         this.x = x;
         this.y = y;
     }

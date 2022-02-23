@@ -4,6 +4,7 @@ import ensta.model.ship.AbstractShip;
 import ensta.model.ship.ShipState;
 import ensta.util.Orientation;
 import java.util.Objects;
+import javax.lang.model.element.Element;
 
 public class Board implements IBoard {
 
@@ -149,19 +150,26 @@ public class Board implements IBoard {
 
     public Boolean getHit( Coords coords ) { return myHits[coords.getX()][coords.getY()]; }
 
-    public Hit sendHit( Coords res ) {
+    public Hit sendHit( int x, int y ) {
+        Coords res = new Coords( x, y );
         if ( !hasShip( res ) ) {
             return Hit.MISS;
-        } else if ( myBoats[res.getX()][res.getY()].getShip().getLabel() == 'D' ) {
-            return Hit.DESTROYER;
-        } else if ( myBoats[res.getX()][res.getY()].getShip().getLabel() == 'S' ) {
-            return Hit.SUBMARINE;
-        } else if ( myBoats[res.getX()][res.getY()].getShip().getLabel() == 'B' ) {
-            return Hit.BATTLESHIP;
-        } else if ( myBoats[res.getX()][res.getY()].getShip().getLabel() == 'C' ) {
-            return Hit.CARRIER;
         } else {
-            return Hit.STRIKE;
+            AbstractShip ship = myBoats[res.getX()][res.getY()].getShip();
+            ship.addStrike();
+            if ( !ship.isSunk() ) {
+                return Hit.STRIKE;
+            } else if ( ship.getLabel() == 'D' ) {
+                return Hit.DESTROYER;
+            } else if ( ship.getLabel() == 'S' ) {
+                return Hit.SUBMARINE;
+            } else if ( ship.getLabel() == 'B' ) {
+                return Hit.BATTLESHIP;
+            } else if ( ship.getLabel() == 'C' ) {
+                return Hit.CARRIER;
+            } else {
+                return null;
+            }
         }
     }
 }
