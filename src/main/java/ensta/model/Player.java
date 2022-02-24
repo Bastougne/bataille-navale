@@ -41,7 +41,7 @@ public class Player {
             AbstractShip ship = ships[i];
             String msg = String.format( "placer %d : %s(%d)", i + 1, ship.getName(), ship.getLength() );
             System.out.println( msg );
-            InputHelper.ShipInput res = InputHelper.readShipInput();
+            InputHelper.ShipInput res = InputHelper.readShipInput( this.board.getSize() );
             ship.setOrientation( Orientation.StringToOrientation( res.orientation ) );
             if ( board.putShip( ship, new Coords( res.x, res.y ) ) )
                 ++i;
@@ -56,7 +56,7 @@ public class Player {
         Hit hit = null;
 
         do {
-            System.out.println( "où frapper?" );
+            System.out.println( "Où frapper?" );
             InputHelper.CoordInput hitInput = InputHelper.readCoordInput();
             this.board.sendHit( hitInput.x, hitInput.y );
 

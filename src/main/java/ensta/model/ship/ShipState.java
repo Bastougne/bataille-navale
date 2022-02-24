@@ -7,7 +7,7 @@ public class ShipState {
     private boolean struck;
 
     public ShipState() {
-        ship = new AbstractShip( "No ship", '0', 0, Orientation.NULL );
+        ship = new AbstractShip( "No ship", '0', 0, Orientation.NULL ); // default ship, used in board.hasShip
         struck = false;
     }
 

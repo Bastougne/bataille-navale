@@ -14,7 +14,7 @@ import ensta.util.ColorUtil;
 import java.io.File;
 // import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
+// import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -105,7 +105,7 @@ public class Game {
         sin.close();
     }
 
-    private void save() {
+    /* private void save() {
         //		try {
         //			// TODO bonus 2 : uncomment
         //			// if (!SAVE_FILE.exists()) {
@@ -117,7 +117,7 @@ public class Game {
         //		} catch (IOException e) {
         //			e.printStackTrace();
         //		}
-    }
+    } */
 
     private boolean loadSave() {
         //		if (SAVE_FILE.exists()) {
@@ -170,8 +170,8 @@ public class Game {
         return ColorUtil.colorize( msg, color );
     }
 
-    private static List<AbstractShip> createDefaultShips() {
+    /* private static List<AbstractShip> createDefaultShips() {
         return Arrays.asList( new AbstractShip[] { new Destroyer(), new Submarine(), new Submarine(), new BattleShip(),
                                                    new Carrier() } );
-    }
+    } */
 }
