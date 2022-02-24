@@ -41,7 +41,7 @@ public final class InputHelper {
             try {
                 String[] in = scanner.nextLine().split( " " );
                 if ( in.length == 2 ) {
-                    String coord = in[0];
+                    String coord = in[0].toUpperCase(); // safety measure, we use upper case here bc of board.print()
                     String orientation = in[1].toLowerCase();
                     if ( Arrays.asList( validOrientations ).contains( orientation ) ) {
                         res.orientation = orientation;
@@ -65,8 +65,8 @@ public final class InputHelper {
         boolean done = false;
         do {
             try {
-                String coord = scanner.nextLine().toLowerCase();
-                res.x = coord.charAt( 0 ) - 'a';
+                String coord = scanner.nextLine().toUpperCase();
+                res.x = coord.charAt( 0 ) - 'A';
                 res.y = Integer.parseInt( coord.substring( 1, coord.length() ) ) - 1;
                 done = true;
             } catch ( Exception e ) {
