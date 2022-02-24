@@ -1,5 +1,6 @@
 package ensta.controller;
 
+import ensta.ai.PlayerAI;
 import ensta.model.Board;
 import ensta.model.Coords;
 import ensta.model.Hit;
@@ -11,7 +12,8 @@ import ensta.model.ship.Destroyer;
 import ensta.model.ship.Submarine;
 import ensta.util.ColorUtil;
 import java.io.File;
-import java.io.IOException;
+// import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -39,11 +41,21 @@ public class Game {
     public Game init() {
         if ( !loadSave() ) {
 
-            // TODO init boards
+            Board board1 = new Board( "Board 1" );
+            Board board2 = new Board( "Board 2" );
 
-            // TODO init this.player1 & this.player2
+            List<AbstractShip> ships = new ArrayList<>();
+            ships.add( new Destroyer() );
+            ships.add( new Submarine() );
+            ships.add( new Submarine() );
+            ships.add( new BattleShip() );
+            ships.add( new Carrier() );
 
-            // TODO place player ships
+            player1 = new Player( board1, board2, ships );
+            player2 = new PlayerAI( board2, board1, ships );
+
+            player1.putShips();
+            player2.putShips();
         }
         return this;
     }

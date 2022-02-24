@@ -1,17 +1,26 @@
 package ensta.model.ship;
 
+import ensta.util.Orientation;
+
 public class ShipState {
     private AbstractShip ship;
     private boolean struck;
+
+    public ShipState() {
+        ship = new AbstractShip( "No ship", '0', 0, Orientation.NULL );
+        struck = false;
+    }
 
     public void addStrike() { ship.addStrike(); }
 
     public boolean isStruck() { return struck; }
 
     public String toString() {
-        final String ANSI_RESET = "\u001B[0m";
-        final String ANSI_COLOUR = ( isStruck() ) ? "\u001B[31m" : "\u001B[30m";
-        return ANSI_COLOUR + ship.getLabel() + ANSI_RESET;
+
+        // final String ANSI_RESET = "\u001B[0m";
+        // final String ANSI_COLOUR = ( isStruck() ) ? "\u001B[31m" : "\u001B[30m";
+        return ship.getLabel().toString();
+        // return ANSI_COLOUR + ship.getLabel() + ANSI_RESET;
     }
 
     public boolean isSunk() { return ship.isSunk(); }

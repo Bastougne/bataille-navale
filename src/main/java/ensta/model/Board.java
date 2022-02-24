@@ -4,7 +4,7 @@ import ensta.model.ship.AbstractShip;
 import ensta.model.ship.ShipState;
 import ensta.util.Orientation;
 import java.util.Objects;
-import javax.lang.model.element.Element;
+// import javax.lang.model.element.Element;
 
 public class Board implements IBoard {
 
@@ -23,7 +23,7 @@ public class Board implements IBoard {
         myBoats = new ShipState[size][size];
         myHits = new boolean[size][size];
         for ( int i = 0; i < size; i++ ) {
-            for ( int j = 0; i < size; i++ ) {
+            for ( int j = 0; j < size; j++ ) {
                 myBoats[i][j] = new ShipState();
                 myHits[i][j] = false;
             }
@@ -39,25 +39,31 @@ public class Board implements IBoard {
     }
 
     public void print() {
-        System.out.println( "Navires : Frappes :" );
-        System.out.print( "   " );
+        System.out.println( "Navires :                Frappes :\n" );
+        System.out.print( "  " );
         for ( int i = 0; i < size; i++ ) {
-            System.out.print( (char)i + ' ' );
+            System.out.print( i );
+            System.out.print( ' ' );
         }
-        System.out.print( "       " );
+        System.out.print( "    " );
         for ( int i = 0; i < size; i++ ) {
-            System.out.print( (char)( 65 + i ) + ' ' );
+            System.out.print( i );
+            System.out.print( ' ' );
         }
-        System.out.println( '\n' );
+        System.out.print( '\n' );
         for ( int i = 0; i < size; i++ ) {
+            System.out.print( (char)( i + 65 ) );
+            System.out.print( ' ' );
             for ( int j = 0; j < size; j++ ) {
-                System.out.print( myBoats[i][j].toString() + ' ' );
+                System.out.print( myBoats[i][j].toString() );
+                System.out.print( ' ' );
             }
             System.out.print( "    " );
-            for ( int j = 0; j < size; j++ ) {
-                System.out.print( boolToChar( myHits[i][j] ) + ' ' );
+            for ( int j = 0; j < 1; j++ ) {
+                System.out.print( boolToChar( myHits[i][j] ) );
+                System.out.print( ' ' );
             }
-            System.out.println( '\n' );
+            System.out.print( '\n' );
         }
     }
 

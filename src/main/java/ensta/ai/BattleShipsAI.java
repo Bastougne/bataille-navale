@@ -62,7 +62,7 @@ public class BattleShipsAI implements Serializable {
     public void putShips( AbstractShip ships[] ) {
         Coords coords;
         Orientation orientation;
-        Orientation[] orientations = Orientation.values();
+        // Orientation[] orientations = Orientation.values();
         Random rng = new Random();
         for ( AbstractShip ship : ships ) {
             do {

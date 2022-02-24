@@ -19,7 +19,11 @@ public class AbstractShip {
     }
 
     public AbstractShip( String name, Character label, int size, Orientation orientation ) {
+        this.name = name;
+        this.label = label;
+        this.size = size;
         this.orientation = orientation;
+        this.strikeCount = 0;
     }
 
     public void addStrike() { strikeCount++; }
