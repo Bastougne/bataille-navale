@@ -62,25 +62,16 @@ public class BattleShipsAI implements Serializable {
     public void putShips( AbstractShip ships[] ) {
         Coords coords;
         Orientation orientation;
-        // Orientation[] orientations = Orientation.values();
+        Orientation[] orientations = Orientation.values();
         Random rng = new Random();
+        int rand;
         for ( AbstractShip ship : ships ) {
             do {
-
                 coords = Coords.randomCoords( this.board.getSize() );
-                switch ( rng.nextInt( 3 ) ) {
-                case 1:
-                    orientation = Orientation.NORTH;
-                case 2:
-                    orientation = Orientation.SOUTH;
-                case 3:
-                    orientation = Orientation.WEST;
-                default:
-                    orientation = Orientation.EAST;
-                }
+                rand = rng.nextInt( 4 );
+                orientation = orientations[rand];
                 ship.setOrientation( orientation );
-            } while ( !board.canPutShip( ship, coords ) );
-            board.putShip( ship, coords );
+            } while ( !board.putShip( ship, coords ) ); // putShip checks canPutShip on call
         }
     }
 

@@ -73,27 +73,27 @@ public class Board implements IBoard {
 
     public boolean canPutShip( AbstractShip ship, Coords coords ) {
         Orientation o = ship.getOrientation();
-        int dx = 0, dy = 0;
+        int dx = 0, dy = 0; // vertical is x ( A, B , ... ) and horizontal is y( 0, 1, ... )
         if ( o == Orientation.EAST ) {
-            if ( coords.getX() + ship.getLength() >= this.size ) {
+            if ( coords.getY() + ship.getLength() > this.size ) {
                 System.out.println( "Invalid coordinates" );
                 return false;
             }
             dy = 1;
         } else if ( o == Orientation.SOUTH ) {
-            if ( coords.getY() + ship.getLength() >= this.size ) {
+            if ( coords.getX() + ship.getLength() > this.size ) {
                 System.out.println( "Invalid coordinates" );
                 return false;
             }
             dx = 1;
         } else if ( o == Orientation.NORTH ) {
-            if ( coords.getY() + 1 - ship.getLength() < 0 ) {
+            if ( coords.getX() + 1 - ship.getLength() < 0 ) {
                 System.out.println( "Invalid coordinates" );
                 return false;
             }
             dx = -1;
         } else if ( o == Orientation.WEST ) {
-            if ( coords.getX() + 1 - ship.getLength() < 0 ) {
+            if ( coords.getY() + 1 - ship.getLength() < 0 ) {
                 System.out.println( "Invalid coordinates" );
                 return false;
             }
@@ -121,17 +121,13 @@ public class Board implements IBoard {
         Orientation o = ship.getOrientation();
         int dx = 0, dy = 0;
         if ( o == Orientation.EAST ) {
-            System.out.println( "East" );
             dy = 1;
         } else if ( o == Orientation.SOUTH ) {
             dx = 1;
-            System.out.println( "South" );
         } else if ( o == Orientation.NORTH ) {
             dx = -1;
-            System.out.println( "North" );
         } else if ( o == Orientation.WEST ) {
             dy = -1;
-            System.out.println( "West" );
         }
 
         Coords iCoords = new Coords( coords );

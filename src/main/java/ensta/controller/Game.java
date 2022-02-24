@@ -29,7 +29,7 @@ public class Game {
      * *** Attributs
      */
     private Player player1;
-    private Player player2;
+    private PlayerAI player2;
     private Scanner sin;
 
     /*

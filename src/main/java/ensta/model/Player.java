@@ -34,21 +34,20 @@ public class Player {
      * coodrinates.
      */
     public void putShips() {
-        boolean done = false;
+        int numberOfShips = ships.length;
         int i = 0;
-
-        do {
-            AbstractShip ship = ships[i];
+        AbstractShip ship;
+        InputHelper.ShipInput res;
+        while ( i < numberOfShips ) {
+            ship = ships[i];
             String msg = String.format( "placer %d : %s(%d)", i + 1, ship.getName(), ship.getLength() );
             System.out.println( msg );
-            InputHelper.ShipInput res = InputHelper.readShipInput( this.board.getSize() );
+            res = InputHelper.readShipInput( this.board.getSize() );
             ship.setOrientation( Orientation.StringToOrientation( res.orientation ) );
             if ( board.putShip( ship, new Coords( res.x, res.y ) ) )
-                ++i;
-            done = i == 5;
-
+                i++;
             board.print();
-        } while ( !done );
+        }
     }
 
     public Hit sendHit( Coords coords ) {
