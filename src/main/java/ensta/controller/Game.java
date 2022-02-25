@@ -12,6 +12,11 @@ import ensta.model.ship.Destroyer;
 import ensta.model.ship.Submarine;
 import ensta.util.ColorUtil;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,7 +31,7 @@ public class Game {
      * *** Attributs
      */
     private Player player1;
-    private PlayerAI player2;
+    private Player player2;
 
     /*
      * *** Constructeurs
@@ -45,7 +50,9 @@ public class Game {
 
             player1.getBoard().print( player2.getBoard().getMyHits() );
             player1.putShips( player2.getBoard().getMyHits() );
-            player2.putShips();
+            player2.putShips( player1.getBoard().getMyHits() );
+        } else {
+            player1.getBoard().print( player2.getBoard().getMyHits() );
         }
         return this;
     }
@@ -82,7 +89,7 @@ public class Game {
 
             done = updateScore();
 
-            // save();
+            save();
 
         } while ( !done );
 
@@ -90,30 +97,34 @@ public class Game {
         System.out.println( String.format( "joueur %d gagne", player1.hasLost() ? 2 : 1 ) );
     }
 
-    /* private void save() {
-        //		try {
-        //			// TODO bonus 2 : uncomment
-        //			// if (!SAVE_FILE.exists()) {
-        //			// SAVE_FILE.getAbsoluteFile().getParentFile().mkdirs();
-        //			// }
-        //
-        //			// TODO bonus 2 : serialize players
-        //
-        //		} catch (IOException e) {
-        //			e.printStackTrace();
-        //		}
-    } */
+    private void save() {
+        try {
+            if ( !SAVE_FILE.exists() ) {
+                SAVE_FILE.getAbsoluteFile().getParentFile().mkdirs();
+            }
+            ObjectOutputStream oos = new ObjectOutputStream( new FileOutputStream( SAVE_FILE ) );
+            oos.writeObject( player1 );
+            oos.writeObject( player2 );
+
+            oos.close();
+
+        } catch ( IOException e ) {
+            e.printStackTrace();
+        }
+    }
 
     private boolean loadSave() {
-        //		if (SAVE_FILE.exists()) {
-        //			try {
-        //				// TODO bonus 2 : deserialize players
-        //
-        //				return true;
-        //			} catch (IOException | ClassNotFoundException e) {
-        //				e.printStackTrace();
-        //			}
-        //		}
+        if ( SAVE_FILE.exists() ) {
+            try {
+                ObjectInputStream ois = new ObjectInputStream( new FileInputStream( SAVE_FILE ) );
+                player1 = (Player)ois.readObject();
+                player2 = (Player)ois.readObject();
+                ois.close();
+                return true;
+            } catch ( IOException | ClassNotFoundException e ) {
+                ( (Throwable)e ).printStackTrace();
+            }
+        }
         return false;
     }
 

@@ -64,3 +64,6 @@ buildNumber.properties
 
 ### Clang-format ###
 .clang-format
+
+### savegame.dat ###
+savegame.dat

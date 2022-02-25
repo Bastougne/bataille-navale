@@ -3,10 +3,10 @@ package ensta.model;
 import ensta.model.ship.AbstractShip;
 import ensta.util.Orientation;
 import ensta.view.InputHelper;
-// import java.io.Serializable;
+import java.io.Serializable;
 import java.util.List;
 
-public class Player {
+public class Player implements Serializable {
     /*
      * ** Attributs
      */

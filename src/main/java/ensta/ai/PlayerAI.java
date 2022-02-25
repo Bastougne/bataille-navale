@@ -22,5 +22,7 @@ public class PlayerAI extends Player {
 
     public void putShips() { ai.putShips( ships ); }
 
+    public void putShips( Boolean[][] hits ) { ai.putShips( ships ); }
+
     public Hit sendHit( Coords coords ) { return ai.sendHit( coords ); }
 }
