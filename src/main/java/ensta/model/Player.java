@@ -92,7 +92,7 @@ public class Player {
         this.destroyedCount = destroyedCount;
     }
 
-    public boolean isLose() {
+    public boolean hasLost() {
         return lose;
     }
 

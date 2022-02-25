@@ -28,5 +28,5 @@ public class AbstractShip {
 
     public void addStrike() { strikeCount++; }
 
-    public boolean isSunk() { return strikeCount == size; }
+    public boolean isSunk() { return strikeCount >= size; }
 }

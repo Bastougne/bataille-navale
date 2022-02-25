@@ -144,9 +144,11 @@ public class BattleShipsAI implements Serializable {
 
     private Coords pickRandomCoords() {
         Coords coords;
+        int maxTentatives = 20;
         do {
             coords = Coords.randomCoords( board.getSize() );
-        } while ( !isUndiscovered( coords ) );
+            maxTentatives--;
+        } while ( !isUndiscovered( coords ) && maxTentatives > 0 ); // potential infinite loop so I added a stop condition ...
 
         return coords;
     }

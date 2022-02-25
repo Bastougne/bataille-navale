@@ -12,12 +12,8 @@ import ensta.model.ship.Destroyer;
 import ensta.model.ship.Submarine;
 import ensta.util.ColorUtil;
 import java.io.File;
-// import java.io.IOException;
-// import java.io.IOException;
-import java.util.ArrayList;
-// import java.util.Arrays;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 public class Game {
 
@@ -31,7 +27,6 @@ public class Game {
      */
     private Player player1;
     private PlayerAI player2;
-    private Scanner sin;
 
     /*
      * *** Constructeurs
@@ -45,16 +40,10 @@ public class Game {
             Board board1 = new Board( "Board 1" );
             Board board2 = new Board( "Board 2" );
 
-            List<AbstractShip> ships = new ArrayList<>();
-            ships.add( new Destroyer() );
-            ships.add( new Submarine() );
-            ships.add( new Submarine() );
-            ships.add( new BattleShip() );
-            ships.add( new Carrier() );
+            player1 = new Player( board1, board2, createDefaultShips() );
+            player2 = new PlayerAI( board2, board1, createDefaultShips() );
 
-            player1 = new Player( board1, board2, ships );
-            player2 = new PlayerAI( board2, board1, ships );
-
+            player1.getBoard().print();
             player1.putShips();
             player2.putShips();
         }
@@ -68,46 +57,36 @@ public class Game {
 
         Coords coords = new Coords();
         Board b1 = player1.getBoard();
+        Board b2 = player2.getBoard();
         Hit hit;
+        boolean strike;
 
         // main loop
         boolean done;
         do {
             hit = player1.sendHit( coords );
-            boolean strike = ( hit != Hit.MISS );
+            strike = ( hit != Hit.MISS );
             b1.setHit( strike, coords );
 
             System.out.print( "\033[H\033[2J" ); // clearing the console
             System.out.flush();
-
-            done = updateScore();
             b1.print();
             System.out.println( makeHitMessage( false /* outgoing hit */, coords, hit ) );
 
+            hit = player2.sendHit( coords );
+            strike = ( hit != Hit.MISS );
+            b2.setHit( strike, coords );
+
+            System.out.println( makeHitMessage( true /* incoming hit */, coords, hit ) );
+
+            done = updateScore();
+
             // save();
-
-            if ( !done && !strike ) {
-                do {
-                    hit = player2.sendHit( coords ); // TODO player2 send a hit.
-
-                    strike = ( hit != Hit.MISS );
-                    if ( strike ) {
-                        b1.print();
-                    }
-                    System.out.println( makeHitMessage( true /* incoming hit */, coords, hit ) );
-                    done = updateScore();
-
-                    if ( !done ) {
-                        // save();
-                    }
-                } while ( strike && !done );
-            }
 
         } while ( !done );
 
         SAVE_FILE.delete();
-        System.out.println( String.format( "joueur %d gagne", player1.isLose() ? 2 : 1 ) );
-        sin.close();
+        System.out.println( String.format( "joueur %d gagne", player1.hasLost() ? 2 : 1 ) );
     }
 
     /* private void save() {
@@ -148,7 +127,7 @@ public class Game {
 
             player.setDestroyedCount( destroyed );
             player.setLose( destroyed == player.getShips().length );
-            if ( player.isLose() ) {
+            if ( player.hasLost() ) {
                 return true;
             }
         }
@@ -174,8 +153,7 @@ public class Game {
         return ColorUtil.colorize( msg, color );
     }
 
-    /* private static List<AbstractShip> createDefaultShips() {
-        return Arrays.asList( new AbstractShip[] { new Destroyer(), new Submarine(), new Submarine(), new BattleShip(),
-                                                   new Carrier() } );
-    } */
+    private static List<AbstractShip> createDefaultShips() {
+        return Arrays.asList( new AbstractShip[] { new Destroyer(), new Submarine(), new Submarine(), new BattleShip(), new Carrier() } );
+    }
 }

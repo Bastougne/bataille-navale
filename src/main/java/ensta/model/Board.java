@@ -43,7 +43,6 @@ public class Board implements IBoard {
     }
 
     public void print() {
-        System.out.print( '\n' );
         System.out.println( "Navires :                Frappes :\n" );
         System.out.print( "  " );
         for ( int i = 0; i < size; i++ ) {
