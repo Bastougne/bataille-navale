@@ -47,7 +47,11 @@ public final class InputHelper {
                         res.orientation = orientation;
                         res.x = coord.charAt( 0 ) - 'A';
                         res.y = Integer.parseInt( coord.substring( 1, coord.length() ) );
-                        done = true;
+                        if ( res.x >= 0 && res.x < size && res.y >= 0 && res.y < size ) {
+                            done = true;
+                        } else {
+                            System.err.println( "Coordinates are out of range !" );
+                        }
                     }
                 }
             } catch ( Exception e ) {
@@ -60,7 +64,7 @@ public final class InputHelper {
         return res;
     }
 
-    public static CoordInput readCoordInput() {
+    public static CoordInput readCoordInput( int size ) {
         CoordInput res = new CoordInput();
         boolean done = false;
         do {
@@ -68,7 +72,8 @@ public final class InputHelper {
                 String coord = scanner.nextLine().toUpperCase();
                 res.x = coord.charAt( 0 ) - 'A';
                 res.y = Integer.parseInt( coord.substring( 1, coord.length() ) );
-                done = true;
+                if ( res.x >= 0 && res.x < size && res.y >= 0 && res.y < size )
+                    done = true;
             } catch ( Exception e ) {
                 System.err.println( "Format incorrect! Entrez la position sous forme 'A0'" );
             }
