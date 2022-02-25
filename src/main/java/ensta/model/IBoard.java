@@ -14,9 +14,10 @@ public interface IBoard {
      * Put the given ship at the given position
      * @param ship The ship to place on the board
      * @param coords
+     * @param display defines if errors are displayed on console
      * @return true if the ship is put on the board
      */
-    public boolean putShip( AbstractShip ship, Coords coords );
+    public boolean putShip( AbstractShip ship, Coords coords, boolean display );
 
     /**
      * Get if a ship is placed at the given position
@@ -47,5 +48,12 @@ public interface IBoard {
      */
     Hit sendHit( int x, int y );
 
-    public boolean canPutShip( AbstractShip ship, Coords coords );
+    /**
+     * Verifies if the ship can be placed at the given position
+     * @param ship The ship to place on the board
+     * @param coords
+     * @param display defines if errors are displayed on console
+     * @return true if the ship can be put on the board
+     */
+    public boolean canPutShip( AbstractShip ship, Coords coords, boolean display );
 }

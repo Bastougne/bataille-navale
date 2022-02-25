@@ -12,6 +12,7 @@ import ensta.model.ship.Destroyer;
 import ensta.model.ship.Submarine;
 import ensta.util.ColorUtil;
 import java.io.File;
+import java.io.IOException;
 // import java.io.IOException;
 import java.util.ArrayList;
 // import java.util.Arrays;
@@ -64,16 +65,20 @@ public class Game {
      * *** Méthodes
      */
     public void run() {
+
         Coords coords = new Coords();
         Board b1 = player1.getBoard();
         Hit hit;
 
         // main loop
-        b1.print();
         boolean done;
         do {
-            hit = Hit.MISS; // TODO player1 send a hit
-            boolean strike = hit != Hit.MISS; // TODO set this hit on his board (b1)
+            hit = player1.sendHit( coords );
+            boolean strike = ( hit != Hit.MISS );
+            b1.setHit( strike, coords );
+
+            System.out.print( "\033[H\033[2J" ); // clearing the console
+            System.out.flush();
 
             done = updateScore();
             b1.print();
@@ -83,9 +88,9 @@ public class Game {
 
             if ( !done && !strike ) {
                 do {
-                    hit = Hit.MISS; // TODO player2 send a hit.
+                    hit = player2.sendHit( coords ); // TODO player2 send a hit.
 
-                    strike = hit != Hit.MISS;
+                    strike = ( hit != Hit.MISS );
                     if ( strike ) {
                         b1.print();
                     }
@@ -165,8 +170,7 @@ public class Game {
             msg = hit.toString() + " coulé";
             color = ColorUtil.Color.RED;
         }
-        msg = String.format( "%s Frappe en %c%d : %s", incoming ? "<=" : "=>", ( (char)( 'A' + coords.getX() ) ),
-                             ( coords.getY() + 1 ), msg );
+        msg = String.format( "%s Frappe en %c%d : %s", incoming ? "<=" : "=>", (char)( 'A' + coords.getX() ), coords.getY(), msg );
         return ColorUtil.colorize( msg, color );
     }
 

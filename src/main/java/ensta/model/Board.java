@@ -2,10 +2,11 @@ package ensta.model;
 
 import ensta.model.ship.AbstractShip;
 import ensta.model.ship.ShipState;
+import ensta.util.ColorUtil;
 import ensta.util.Orientation;
 // import javax.lang.model.element.Element;
 // import java.lang.Math;
-// import java.util.Objects;
+import java.util.Objects;
 
 public class Board implements IBoard {
 
@@ -14,7 +15,7 @@ public class Board implements IBoard {
     private String name;
     private int size;
     private ShipState[][] myBoats;
-    private boolean[][] myHits;
+    private Boolean[][] myHits;
 
     public String getName() { return name; }
 
@@ -22,10 +23,11 @@ public class Board implements IBoard {
         this.name = name;
         this.size = size;
         myBoats = new ShipState[size][size];
-        myHits = new boolean[size][size];
+        myHits = new Boolean[size][size];
         for ( int i = 0; i < size; i++ ) {
             for ( int j = 0; j < size; j++ ) {
                 myBoats[i][j] = new ShipState();
+                myHits[i][j] = null;
             }
         }
     }
@@ -34,8 +36,10 @@ public class Board implements IBoard {
         this( name, DEFAULT_SIZE );
     }
 
-    public Character boolToChar( boolean bool ) {
-        return ( bool ) ? 'X' : '.';
+    public String boolToStr( Boolean bool ) {
+        if ( bool == null )
+            return ".";
+        return ColorUtil.colorize( "X", ( bool ) ? ColorUtil.Color.RED : ColorUtil.Color.WHITE );
     }
 
     public void print() {
@@ -63,7 +67,7 @@ public class Board implements IBoard {
             System.out.print( (char)( i + 65 ) );
             System.out.print( ' ' );
             for ( int j = 0; j < size; j++ ) {
-                System.out.print( boolToChar( myHits[i][j] ) );
+                System.out.print( boolToStr( myHits[i][j] ) );
                 System.out.print( ' ' );
             }
             System.out.print( '\n' );
@@ -71,30 +75,34 @@ public class Board implements IBoard {
         System.out.print( '\n' );
     }
 
-    public boolean canPutShip( AbstractShip ship, Coords coords ) {
+    public boolean canPutShip( AbstractShip ship, Coords coords, boolean display ) {
         Orientation o = ship.getOrientation();
         int dx = 0, dy = 0; // vertical is x ( A, B , ... ) and horizontal is y( 0, 1, ... )
         if ( o == Orientation.EAST ) {
             if ( coords.getY() + ship.getLength() > this.size ) {
-                System.out.println( "Invalid coordinates" );
+                if ( display )
+                    System.out.println( "Invalid coordinates" );
                 return false;
             }
             dy = 1;
         } else if ( o == Orientation.SOUTH ) {
             if ( coords.getX() + ship.getLength() > this.size ) {
-                System.out.println( "Invalid coordinates" );
+                if ( display )
+                    System.out.println( "Invalid coordinates" );
                 return false;
             }
             dx = 1;
         } else if ( o == Orientation.NORTH ) {
             if ( coords.getX() + 1 - ship.getLength() < 0 ) {
-                System.out.println( "Invalid coordinates" );
+                if ( display )
+                    System.out.println( "Invalid coordinates" );
                 return false;
             }
             dx = -1;
         } else if ( o == Orientation.WEST ) {
             if ( coords.getY() + 1 - ship.getLength() < 0 ) {
-                System.out.println( "Invalid coordinates" );
+                if ( display )
+                    System.out.println( "Invalid coordinates" );
                 return false;
             }
             dy = -1;
@@ -104,7 +112,8 @@ public class Board implements IBoard {
 
         for ( int i = 0; i < ship.getLength(); ++i ) {
             if ( this.hasShip( iCoords ) ) {
-                System.out.println( "Trying to place ship on existing ship !" );
+                if ( display )
+                    System.out.println( "Trying to place ship on existing ship !" );
                 return false;
             }
             iCoords.setX( iCoords.getX() + dx );
@@ -115,8 +124,8 @@ public class Board implements IBoard {
 
     public int getSize() { return size; }
 
-    public boolean putShip( AbstractShip ship, Coords coords ) {
-        if ( !canPutShip( ship, coords ) )
+    public boolean putShip( AbstractShip ship, Coords coords, boolean display ) {
+        if ( !canPutShip( ship, coords, display ) )
             return false;
         Orientation o = ship.getOrientation();
         int dx = 0, dy = 0;

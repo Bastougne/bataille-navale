@@ -44,7 +44,9 @@ public class Player {
             System.out.println( msg );
             res = InputHelper.readShipInput( this.board.getSize() );
             ship.setOrientation( Orientation.StringToOrientation( res.orientation ) );
-            if ( board.putShip( ship, new Coords( res.x, res.y ) ) )
+            System.out.print( "\033[H\033[2J" ); // clearing the console
+            System.out.flush();
+            if ( board.putShip( ship, new Coords( res.x, res.y ), true ) )
                 i++;
             board.print();
         }
@@ -57,10 +59,10 @@ public class Player {
         do {
             System.out.println( "Où frapper?" );
             InputHelper.CoordInput hitInput = InputHelper.readCoordInput();
-            this.board.sendHit( hitInput.x, hitInput.y );
-
-            // TODO : Game expects sendHit to return BOTH hit result & hit coords.
-            // return hit is obvious. But how to return coords at the same time ?
+            hit = opponentBoard.sendHit( hitInput.x, hitInput.y );
+            coords.setX( hitInput.x );
+            coords.setY( hitInput.y );
+            done = ( hit != null );
         } while ( !done );
 
         return hit;
