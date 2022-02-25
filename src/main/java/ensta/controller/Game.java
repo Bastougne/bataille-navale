@@ -43,8 +43,8 @@ public class Game {
             player1 = new Player( board1, board2, createDefaultShips() );
             player2 = new PlayerAI( board2, board1, createDefaultShips() );
 
-            player1.getBoard().print();
-            player1.putShips();
+            player1.getBoard().print( player2.getBoard().getMyHits() );
+            player1.putShips( player2.getBoard().getMyHits() );
             player2.putShips();
         }
         return this;
@@ -70,7 +70,6 @@ public class Game {
 
             System.out.print( "\033[H\033[2J" ); // clearing the console
             System.out.flush();
-            b1.print();
             System.out.println( makeHitMessage( false /* outgoing hit */, coords, hit ) );
 
             hit = player2.sendHit( coords );
@@ -78,6 +77,8 @@ public class Game {
             b2.setHit( strike, coords );
 
             System.out.println( makeHitMessage( true /* incoming hit */, coords, hit ) );
+            System.out.print( '\n' );
+            b1.print( b2.getMyHits() );
 
             done = updateScore();
 

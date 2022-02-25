@@ -33,7 +33,7 @@ public class Player {
      * Read keyboard input to get ships coordinates. Place ships on given
      * coodrinates.
      */
-    public void putShips() {
+    public void putShips( Boolean[][] hits ) {
         int numberOfShips = ships.length;
         int i = 0;
         AbstractShip ship;
@@ -48,7 +48,7 @@ public class Player {
             System.out.flush();
             if ( board.putShip( ship, new Coords( res.x, res.y ), true ) )
                 i++;
-            board.print();
+            board.print( hits );
         }
     }
 

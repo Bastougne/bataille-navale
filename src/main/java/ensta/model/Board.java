@@ -3,10 +3,8 @@ package ensta.model;
 import ensta.model.ship.AbstractShip;
 import ensta.model.ship.ShipState;
 import ensta.util.ColorUtil;
+import ensta.util.ColorUtil.Color;
 import ensta.util.Orientation;
-// import javax.lang.model.element.Element;
-// import java.lang.Math;
-// import java.util.Objects;
 
 public class Board implements IBoard {
 
@@ -16,6 +14,8 @@ public class Board implements IBoard {
     private int size;
     private ShipState[][] myBoats;
     private Boolean[][] myHits;
+
+    public Boolean[][] getMyHits() { return myHits; }
 
     public String getName() { return name; }
 
@@ -42,7 +42,9 @@ public class Board implements IBoard {
         return ColorUtil.colorize( "X", ( bool ) ? ColorUtil.Color.RED : ColorUtil.Color.WHITE );
     }
 
-    public void print() {
+    public void print( Boolean[][] hits ) {
+        Color labelColor = Color.WHITE;
+
         System.out.println( "Navires :                Frappes :\n" );
         System.out.print( "  " );
         for ( int i = 0; i < size; i++ ) {
@@ -59,7 +61,14 @@ public class Board implements IBoard {
             System.out.print( (char)( i + 65 ) );
             System.out.print( ' ' );
             for ( int j = 0; j < size; j++ ) {
-                System.out.print( myBoats[i][j].toString() );
+                if ( hits[i][j] == null ) {
+                    labelColor = Color.WHITE;
+                } else if ( hits[i][j] == true ) {
+                    labelColor = Color.RED;
+                } else if ( hits[i][j] == false ) {
+                    labelColor = Color.BLACK;
+                }
+                System.out.print( ColorUtil.colorize( myBoats[i][j].toString(), labelColor ) );
                 System.out.print( ' ' );
             }
             System.out.print( "   " );
