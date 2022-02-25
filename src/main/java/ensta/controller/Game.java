@@ -12,7 +12,7 @@ import ensta.model.ship.Destroyer;
 import ensta.model.ship.Submarine;
 import ensta.util.ColorUtil;
 import java.io.File;
-import java.io.IOException;
+// import java.io.IOException;
 // import java.io.IOException;
 import java.util.ArrayList;
 // import java.util.Arrays;
